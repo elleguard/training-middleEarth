@@ -7,7 +7,7 @@ public class Player {
 	
 	private String playerName;
 	private int totalMoney;
-	private ArrayList<Deed> propertyDeeds = new ArrayList<Deed>();
+	private ArrayList<Square> propertyDeeds = new ArrayList<Square>();
 	private boolean isBankrupt = false;
 	
 	public void getPlayerName() {
@@ -30,21 +30,21 @@ public class Player {
 		
 	}
 	
-	public ArrayList<Deed> getPropertyDeeds() {
+	public ArrayList<Square> getPropertyDeeds() {
 		return propertyDeeds;
 	}
 	
-	public void addToProperties(Deed property) {
+	public void addToProperties(Square deed) {
 		//TODO: add property deed to propertyDeeds list
-		propertyDeeds.add(property);
-		totalMoney -= property.getPurchaseValue();
+		propertyDeeds.add(deed);
+		totalMoney -= deed.getPurchaseValue();
 	}
 	
 	public boolean isBankrupt() {
 		return isBankrupt;
 	}
 	
-	public void removeAllPropertiesForBankruptcy(ArrayList<Deed> propertyDeeds, ArrayList<Deed> deedBank) {
+	public void removeAllPropertiesForBankruptcy(ArrayList<Square> propertyDeeds, ArrayList<Square> deedBank) {
 		while(propertyDeeds.size() > 0) {
 			propertyDeeds.get(0).setOwnedBy("Bank");
 			deedBank.add(propertyDeeds.get(0));

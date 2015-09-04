@@ -1,6 +1,6 @@
 package main.MiddleEarth.gamePieces;
 
-public class Jail extends Board {
+public class Jail extends Square {
 
 	private int jailMoney = 50;
 	
@@ -8,7 +8,14 @@ public class Jail extends Board {
 		this.setSquareId(squareId);
 	}
 	
+	@Override
 	public void getOutOfJail(Token token) {
 		token.setTotalMoney(token.getTotalmoney() - jailMoney);
 	}
+	
+	@Override
+	public String getSquareName() {
+		return "Jail";
+	}
+	
 }

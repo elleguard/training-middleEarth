@@ -2,7 +2,7 @@ package main.MiddleEarth.gamePieces;
 
 import java.util.Random;
 
-public class Chance extends Board {
+public class Chance extends Square {
 	
 	private int chanceValue;
 	private Random number = new Random();
@@ -10,6 +10,13 @@ public class Chance extends Board {
 	public Chance(int squareId) {
 		this.setSquareId(squareId);
 	}
+	
+	@Override
+	public String getSquareName() {
+		return "Chance";
+	}
+	
+	@Override
 	public void getChanceItem(Token token) {
 		chanceValue = number.nextInt(3) + 1;
 		//1 represents a bad chance card resulting in owing 100 dollars

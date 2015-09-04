@@ -17,7 +17,8 @@ public class GameController {
 	private ArrayList<Token> playerList = new ArrayList<Token>();
 	private MoneyBank moneyBank = new MoneyBank();
 	private DeedBank deedBank = new DeedBank();
-	private Board board = new Board();
+	private Square square = new Square();
+	private ArrayList<Square> squareList = new ArrayList<Square>();
 	private Die die = new Die();
 	//set square objects
 	private PassGo passGo = new PassGo(0);
@@ -32,6 +33,7 @@ public class GameController {
 	private Chance chance2 = new Chance(9);
 	private Deed isenguard = new Deed(10, 200, "Isenguard", 80, 100, "Bank");
 	private Deed deadmarshes = new Deed(11, 225, "The Dead Marshes", 90, 110, "Bank");
+	private PrancingPony freeStay = new PrancingPony(12);
 	private Deed minastirith = new Deed(13, 1000, "Minas Tirith", 450, 550, "Bank");
 	private boolean isNotWinner;
 	private int count = NUMBER_OF_PLAYERS;
@@ -40,6 +42,7 @@ public class GameController {
 	
 	public void newGame() {
 		initializePlayers();
+		initializeSquares();
 		addDeedsToBankList();
 		moneyBank.setMoney(500000);
 		isNotWinner = true;
@@ -58,71 +61,23 @@ public class GameController {
 		deedBank.addDeedToBank(minastirith);
 	} 
 	
-	public void gamePlay() {
 	
-		System.out.println("------------------------------------NEW GAME STARTED----------------------------------------------------------");
+	/*********************************************************Main Game Logic*******************************************************/
+	
+	public void gamePlay() {
+		
+	System.out.println("------------------------------------NEW GAME STARTED----------------------------------------------------------");
 		
 		while(isNotWinner) {
 			counter++;
 			for(i = 0; i < count; i++) {
 				System.out.println("\r\n" + "--It is " + playerList.get(i).getTokenName() +"'s Turn--");
-				
 				//roll dice and move player
 				int diceRoll = die.rollDie();
-				board.moveToken(playerList.get(i), diceRoll);
+				square.moveToken(playerList.get(i), diceRoll);
 				System.out.println(playerList.get(i).getTokenName() + " has rolled a " + diceRoll );
 				
-				//switch statement used to represent game board and actions taken when player lands on each square
-				switch (playerList.get(i).getLocationOnBoard()) {
-				
-				case 0:
-					passGo.getMoney(playerList.get(i));
-					System.out.println(playerList.get(i).getTokenName() + " has passed go and collected $200");
-					System.out.println(playerList.get(i).getTokenName() + " now has $ " +  playerList.get(i).getTotalmoney());
-					break;
-				case 1: 
-					playerActOnDeed(playerList.get(i), shire, playerList);
-					break;
-				case 2: 
-					playerActOnDeed(playerList.get(i), bree, playerList);
-					break;
-				case 3: 
-					playerActOnChance(chance1, playerList.get(i));
-					break;
-				case 4:
-					playerActOnDeed(playerList.get(i), rivendell, playerList);
-					break;
-				case 5:
-					playerActOnDeed(playerList.get(i), rohan, playerList);
-					break;
-				case 6:
-					playerIsInJail(playerList.get(i));
-					break;
-				case 7:
-					playerActOnDeed(playerList.get(i), gondor, playerList);
-					break;
-				case 8:
-					playerActOnDeed(playerList.get(i), mordor, playerList);
-					break;
-				case 9:
-					playerActOnChance(chance2, playerList.get(i));
-					break;
-				case 10:
-					playerActOnDeed(playerList.get(i), isenguard, playerList);
-					break;
-				case 11:
-					playerActOnDeed(playerList.get(i), deadmarshes, playerList);
-					break;
-				case 12:
-					System.out.println(playerList.get(i).getTokenName() + " has received a free night stay at the PRANCING PONY");
-					break;
-				case 13:
-					playerActOnDeed(playerList.get(i), minastirith, playerList);
-					break;
-				default:
-					passGo.getMoney(playerList.get(i));
-					break;
-				}
+				squareTakeAction( playerList.get(i).getLocationOnBoard(), playerList.get(i));
 				
 				if(count == 1) {
 					displayWinner(playerList.get(0));
@@ -133,32 +88,59 @@ public class GameController {
 		}
 	}
 	
+	// Method determines Square type and takes action
+	public void squareTakeAction(int position, Token token) {
+		if(squareList.get(position).getSquareName().equalsIgnoreCase("Deed")) {
+			playerActOnDeed(token, squareList.get(position), playerList);
+		}
+		else if(squareList.get(position).getSquareName().equalsIgnoreCase("Jail")) {
+			playerIsInJail(token);
+		}
+		else if(squareList.get(position).getSquareName().equalsIgnoreCase("Chance")) {
+			playerActOnChance(squareList.get(position), token);
+		}
+		else if(squareList.get(position).getSquareName().equalsIgnoreCase("PassGo")) {
+			playerPassesGo(token);
+		}
+		else if(squareList.get(position).getSquareName().equalsIgnoreCase("PrancingPony")) {
+			freeStay.freeSpace(token);
+		}
 	
+	}
 	
+	// Player lands on Jail Square--pays $50
 	public void playerIsInJail(Token token) {
 		jail.getOutOfJail(token);
 		System.out.println(token.getTokenName() + " HAS BEEN CAPTURE BY ORCS!!!!!");
 		if(token.getTotalmoney() > 0) {
 			System.out.println(token.getTokenName() + " now has $" +  token.getTotalmoney());
 		}
-		else
-		{
+		else {
 			playerIsBankrupt(token);
 		}	
 	}
 	
-	public void playerActOnChance(Chance chance, Token token) {
+	// Player lands on PassGo Square-- receives $200
+	public void playerPassesGo(Token token) {
+		passGo.getMoney(token);
+		System.out.println(token.getTokenName() + " has passed go and collected $200");
+		System.out.println(token.getTokenName() + " now has $ " +  token.getTotalmoney());
+	}
+	
+	// Player lands on Chance Square-- opens chest to gain or lose money
+	public void playerActOnChance(Square chance, Token token) {
 		chance.getChanceItem(token);
 		System.out.println(token.getTokenName() + " OPENED A MYSTERY CHEST");
 		if(token.getTotalmoney() > 0) {
 			System.out.println(token.getTokenName() + " now has $" + token.getTotalmoney());
 		}
-		else
-		{
+		else {
 			playerIsBankrupt(token);
 		}
 	}
-	public void playerActOnDeed(Token token, Deed deed, ArrayList<Token> playerList) {
+	
+	// Player lands on Deed Square-- options to buy, or pay rent to owner 
+	public void playerActOnDeed(Token token, Square deed, ArrayList<Token> playerList) {
 		System.out.println(token.getTokenName() + " landed on a Property");
 		System.out.println(deed.getPropertyName() + " is Owned By: " + deed.getOwnedBy());
 		if(deed.getOwnedBy() != token.getTokenName()) {
@@ -199,6 +181,7 @@ public class GameController {
 			
 	}
 	
+	// If player does not have enough money, bankruptcy method removes player from game and returns assets to bank
 	public void playerIsBankrupt(Token token) {
 		//TODO: give property and money back to bank and remove from player list
 		token.removeAllPropertiesForBankruptcy(token.getPropertyDeeds(), deedBank.getAllDeeds());
@@ -210,6 +193,7 @@ public class GameController {
 				" is BANKRUPT!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 	}
 	
+	// Last player remaining to not declare bankruptcy, wins
 	public void displayWinner(Token token) {
 		isNotWinner = false;
 		if(token.getIsGoodGuy() == true) {
@@ -222,6 +206,8 @@ public class GameController {
 		}
 	}
 	
+
+	/*************************************************INITIALIZE OBJECTS******************************************************/
 	public void initializePlayers() {
 			
 			gandalf.setPlayerName("Matt");
@@ -259,6 +245,25 @@ public class GameController {
 			playerList.add(aragorn);
 			playerList.add(sauran);
 			playerList.add(frodo);
+	}
+	
+	public void initializeSquares() {
+		
+		squareList.add(passGo);
+		squareList.add(shire);
+		squareList.add(bree);
+		squareList.add(chance1);
+		squareList.add(rivendell);
+		squareList.add(rohan);
+		squareList.add(jail);
+		squareList.add(gondor);
+		squareList.add(mordor);
+		squareList.add(chance2);
+		squareList.add(isenguard);
+		squareList.add(deadmarshes);
+		squareList.add(freeStay);
+		squareList.add(minastirith);
+		
 	}
 
 	
