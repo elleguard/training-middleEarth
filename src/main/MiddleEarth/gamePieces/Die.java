@@ -4,18 +4,16 @@ import java.util.Random;
 
 public class Die {
 	
-		public final static int DEFAULT_NUMBER_OF_DIE_FACES = 6;
+		private final static int DEFAULT_NUMBER_OF_DIE_FACES = 6;
 
 		int dots;
 		Random number = new Random();
 		
-		public void rollDie() {
+		public int rollDie() {
 			dots = number.nextInt(DEFAULT_NUMBER_OF_DIE_FACES) + 1;
-		}
-		
-		public int getDots() {
 			return dots;
 		}
+		
 }
 
  
