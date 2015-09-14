@@ -6,6 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.usaa.MiddleEarth.Chance;
+import com.usaa.MiddleEarth.Token;
+
 public class ChanceTest {
 
 	@Before

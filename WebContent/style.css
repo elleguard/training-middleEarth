@@ -1,0 +1,56 @@
+@CHARSET "ISO-8859-1";
+
+@font-face {
+    font-family: lord;
+    src: url('fonts/RINGM___.TTF');
+}
+
+@font-face {
+	font-family: text;
+	src: url('fonts/MorrisRoman-Black.ttf');
+}
+
+body {
+	font-size: 1.5em;
+	font-family: text;
+	color: #fff;
+	background-size: cover;
+	background: url('images/bg.jpg') no-repeat center center fixed;
+}
+
+h1 {
+	font-family: lord;
+	text-align: center;
+	color: white;
+}
+
+#main {
+	background: rgba(0, 0, 0, 0.6);
+	padding: 15px;
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+input[type="submit"] {
+	width: 80px;
+	height: 60px;
+	background: url('images/sting.jpg') no-repeat;
+	background-size: 80px 60px;
+	color: rgba(0,0,0,0);
+}
+
+input[type="submit"]:hover {
+	cursor: pointer;
+	background: url('images/sting.jpg') no-repeat center #fff;
+	background-size: 70px 50px;
+	font-size: 32px;
+	color: #9C0F0F;
+}
+
+.footer {
+	font-family: arial;
+	font-size: 18px;
+	color: rgba(154, 154, 154, 0.6);
+}

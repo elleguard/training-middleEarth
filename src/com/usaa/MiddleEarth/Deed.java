@@ -1,4 +1,4 @@
-package main.MiddleEarth.gamePieces;
+package com.usaa.MiddleEarth;
 
 public class Deed extends Square {
 	

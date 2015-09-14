@@ -1,4 +1,4 @@
-package main.MiddleEarth.gamePieces;
+package com.usaa.MiddleEarth;
 
 public class Token extends Player {
 	

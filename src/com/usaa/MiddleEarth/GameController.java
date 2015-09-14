@@ -1,4 +1,4 @@
-package main.MiddleEarth.gamePieces;
+package com.usaa.MiddleEarth;
 
 import java.awt.List;
 import java.util.ArrayList;

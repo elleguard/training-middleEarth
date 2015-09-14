@@ -8,6 +8,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.usaa.MiddleEarth.Deed;
+import com.usaa.MiddleEarth.GameController;
+import com.usaa.MiddleEarth.Token;
+
 public class playerActOnDeedTest {
 
 	Deed shire = new Deed(1, 50, "The Shire", 10, 25, "Bank");

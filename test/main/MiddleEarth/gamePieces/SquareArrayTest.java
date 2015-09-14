@@ -8,6 +8,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.usaa.MiddleEarth.Chance;
+import com.usaa.MiddleEarth.Deed;
+import com.usaa.MiddleEarth.Jail;
+import com.usaa.MiddleEarth.PassGo;
+import com.usaa.MiddleEarth.Square;
+import com.usaa.MiddleEarth.Token;
+
 public class SquareArrayTest {
 	
 	int number_of_squares = 7;

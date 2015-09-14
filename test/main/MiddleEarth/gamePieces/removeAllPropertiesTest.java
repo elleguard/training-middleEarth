@@ -6,6 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.usaa.MiddleEarth.Deed;
+import com.usaa.MiddleEarth.DeedBank;
+import com.usaa.MiddleEarth.Token;
+
 public class removeAllPropertiesTest {
 
 	@Before
