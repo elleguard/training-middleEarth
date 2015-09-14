@@ -1,0 +1,56 @@
+@CHARSET "ISO-8859-1";
+
+@font-face {
+    font-family: lord;
+    src: url('fonts/RINGM___.TTF');
+}
+
+@font-face {
+	font-family: text;
+	src: url('fonts/MorrisRoman-Black.ttf');
+}
+
+body {
+	font-size: 1.5em;
+	font-family: text;
+	color: #fff;
+	background-size: cover;
+	background: url('images/bg.jpg') no-repeat center center fixed;
+}
+
+#board {
+	background: rgba(0, 0, 0, 0.8);
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	width: 760px;
+	height: 550px;
+}
+
+#title {
+	height: 150px;
+}
+
+#center {
+	width: 458px;
+	height: 200px;
+	float: left;
+}
+
+.inline {
+	float: left;
+	width: 150px;
+}
+
+.row {
+	width: 760px;
+	float: left;
+}
+
+.tile {
+	width: 150px;
+	height: 100px;
+	float: left;
+	background: #fff;
+	border: 1px solid #000;
+}
