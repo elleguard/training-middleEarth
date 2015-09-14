@@ -29,7 +29,6 @@ body {
 
 #title {
 	height: 150px;
-	background-size: 150px 100px;
 }
 
 #center {
@@ -55,6 +54,7 @@ body {
 	background: #fff;
 	color: #000;
 	border: 1px solid #000;
+	background-size: 150px 100px !important;
 }
 
 .tile span {
