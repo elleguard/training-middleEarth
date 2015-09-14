@@ -15,5 +15,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/plk6272/git/training-middleEarth/libs/selenium-java-2.47.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
