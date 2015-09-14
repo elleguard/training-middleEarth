@@ -56,3 +56,9 @@ body {
 	color: #000;
 	border: 1px solid #000;
 }
+
+.tile span {
+	background: #fff;
+	padding: 3px;
+	border: 1px solid black;
+}
