@@ -1,8 +1,8 @@
 @CHARSET "ISO-8859-1";
 
 @font-face {
-    font-family: lord;
-    src: url('fonts/RINGM___.TTF');
+	font-family: lord;
+	src: url('fonts/RINGM___.TTF');
 }
 
 @font-face {
@@ -29,6 +29,7 @@ body {
 
 #title {
 	height: 150px;
+	background-size: 150px 100px;
 }
 
 #center {
