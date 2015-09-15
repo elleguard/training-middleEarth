@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Servlet")
 public class Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Servlet() {
-        super();
-        // TODO Auto-generated constructor stub
+    
+    @SuppressWarnings("deprecation")
+	public void init() {
+    	GameController gameController = new GameController();
+        Thread th = new Thread(gameController);
+        th.start();
+        
+		th.stop();
     }
 
 	/**
@@ -28,6 +29,7 @@ public class Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.getWriter().flush();
 	}
 
 	/**
