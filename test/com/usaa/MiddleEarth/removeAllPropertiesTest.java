@@ -1,6 +1,4 @@
-package main.MiddleEarth.gamePieces;
-
-import static org.junit.Assert.*;
+package com.usaa.MiddleEarth;
 
 import org.junit.After;
 import org.junit.Before;

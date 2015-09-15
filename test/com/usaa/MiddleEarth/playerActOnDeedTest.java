@@ -1,6 +1,4 @@
-package main.MiddleEarth.gamePieces;
-
-import static org.junit.Assert.*;
+package com.usaa.MiddleEarth;
 
 import java.util.ArrayList;
 
