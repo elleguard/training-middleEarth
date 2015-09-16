@@ -73,10 +73,14 @@
 						players = 1;
 					}
 				%>
-
+				
+				<%@ page import="com.usaa.MiddleEarth.GameController, java.util.ArrayList"  %>
+				
 				<%
-					for (int i = 0; i < players; i++) {
-						int width = (100 - (players * 2)) / players;
+				
+					int width = (100 - (players * 2)) / players;
+					for (int i = 0; i < players; i++ ) {
+						
 
 						out.println("<div class='tokens' style='width: " + width + "%; background-color:#2F2F73; margin: 1%'>"
 								+ "<span>Aragorn</span>" + "<br>" + "<img src='images/tokens/aragorn.jpg'/>" +
@@ -136,11 +140,11 @@
 				style="background: url('images/tiles/middle_earth.jpg');">>
 				<span>Go</span>
 				<div id="0">
-					<div style="background: blue;" class="player" id="Gandalf"></div>
-					<div style="background: red;" class="player" id="Legolas"></div>
-					<div style="background: green;" class="player" id="Aragorn"></div>
-					<div style="background: yellow;" class="player" id="Sauran"></div>
-					<div style="background: orange;" class="player" id="Frodo"></div>
+					<div style="background: blue;" class="player" id="Legolas"></div>
+					<div style="background: red;" class="player" id="Gandolf"></div>
+					<div style="background: green;" class="player" id="Frodo"></div>
+					<div style="background: yellow;" class="player" id="Gandolf"></div>
+					<div style="background: orange;" class="player" id="Gandolf"></div>
 				</div>
 			</div>
 		</div>
@@ -151,10 +155,11 @@
 		function mycode() {
 			console.log("Tick");
 			$.get("BoardStatusServlet", function(data) {
-				var players = $.parseJSON(data);
-				console.log(players);
+				var moves = $.parseJSON(data);
+				//console.log(moves);
 
-				for(var player in players) {
+				for(var player in moves) {
+					console.log((parseInt(moves[player]["0"]["rolled"]) + parseInt($("#" + moves.name).parent().attr("id"))) % 14);
 					movePlayer(moves[player]["0"]["name"], (parseInt(moves[player]["0"]["rolled"]) + parseInt($("#" + moves[player]["0"]["name"]).parent().attr("id"))) % 14);
 				}
 					

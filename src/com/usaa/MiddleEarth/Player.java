@@ -9,6 +9,11 @@ public class Player {
 	private ArrayList<Square> propertyDeeds = new ArrayList<Square>();
 	private boolean isBankrupt = false;
 	
+	public void setPlayerColor(String ColorHex) {
+		
+	}
+	
+	public String getPlayerColor()
 	public void getPlayerName() {
 		
 	}
