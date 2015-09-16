@@ -132,7 +132,8 @@
 				<span>The Shire</span>
 				<div id="1"></div>
 			</div>
-			<div class="tile">
+			<div class="tile"
+				style="background: url('images/tiles/middle_earth.jpg');">>
 				<span>Go</span>
 				<div id="0">
 					<div style="background: blue;" class="player" id="Legolas"></div>

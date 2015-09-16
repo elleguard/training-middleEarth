@@ -165,7 +165,7 @@ public class GameController {
 	// Player lands on Chance Square-- opens chest to gain or lose money
 	public void playerActOnChance(Square chance, Token token) {
 		chance.getChanceItem(token);
-		System.out.println(token.getTokenName() + " OPENED A MYSTERY CHEST");
+		System.out.println(token.getTokenName() + " HAS LOOKED IN GALADRIEL'S MIRROR!");
 		if(token.getTotalmoney() > 0) {
 			System.out.println(token.getTokenName() + " now has $" + token.getTotalmoney());
 		}
