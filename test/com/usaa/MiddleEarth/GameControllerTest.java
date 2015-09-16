@@ -19,7 +19,7 @@ public class GameControllerTest {
 	@Test
 	public void test() {
 		GameController gameController = new GameController();
-		gameController.newGame();
+		gameController.newGame(2);
 	}
 	
 	

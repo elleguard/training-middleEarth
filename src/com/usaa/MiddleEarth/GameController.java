@@ -20,7 +20,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class GameController {
 
 	public static int NUMBER_OF_SPACES = 13;
-	public static int NUMBER_OF_PLAYERS = 5;
 	
 	//Instantiate classes
 	private Token gandalf = new Token();
@@ -50,12 +49,11 @@ public class GameController {
 	private PrancingPony freeStay = new PrancingPony(12);
 	private Deed minastirith = new Deed(13, 1000, "Minas Tirith", 450, 550, "Bank");
 	private boolean isNotWinner;
-	private int count = NUMBER_OF_PLAYERS;
 	private int counter = 0;
 	private int i = 0;
 	
-	public String newGame() {
-		initializePlayers();
+	public String newGame(int numberOfPlayers) {
+		initializePlayers(numberOfPlayers);
 		initializeSquares();
 		addDeedsToBankList();
 		moneyBank.setMoney(500000);
@@ -65,12 +63,15 @@ public class GameController {
 		
 		for(int i = 0; i < playerList.size(); i++) {
 			start += "\"" + i + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName() 
-					+ "\", \"color\" : " + playerList.get(i).getPlayerColor()
-					+ "\", \"image\" : " + playerList.get(i).getPlayerImageLocation()
-					+ "}]";
+					+ "\", \"color\" : \"" + playerList.get(i).getPlayerColor()
+					+ "\", \"image\" : \"" + playerList.get(i).getPlayerImageLocation()
+					+ "\"}]";
+			
+			if(i != playerList.size() - 1)
+				start += " , ";
 
 		}
-		
+		start += "}";
 		return start;
 	}
 	
@@ -96,19 +97,20 @@ public class GameController {
 		
 //		while(isNotWinner) {
 			counter++;
-			for(i = 0; i < count; i++) {
+			for(i = 0; i < playerList.size(); i++) {
 				System.out.println("\r\n" + "--It is " + playerList.get(i).getTokenName() +"'s Turn--");
 				
 				//roll dice and move player
 				int diceRoll = die.rollDie();
 				square.moveToken(playerList.get(i), diceRoll);
 				System.out.println(playerList.get(i).getTokenName() + " has rolled a " + diceRoll );
-				moves += "\"" + i + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName() 
-						+ "\", \"rolled\" : " + diceRoll	
+				moves += "\"" + i + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName()
+						+ "\", \"money\" : " + playerList.get(i).getTotalmoney()
+						+ ", \"rolled\" : " + diceRoll	
 						+ "}]";
 				squareTakeAction( playerList.get(i).getLocationOnBoard(), playerList.get(i));
 				
-				if(count == 1) {
+				if(playerList.size() == 1) {
 					displayWinner(playerList.get(0));
 					break;
 				}
@@ -209,7 +211,7 @@ public class GameController {
 			} 
 			else {
 				//must pay rent
-				for(int i = 0; i < count; i++) {
+				for(int i = 0; i < playerList.size(); i++) {
 					if(deed.getOwnedBy().equalsIgnoreCase(playerList.get(i).getTokenName())) {
 						if(token.getTotalmoney() >= deed.getRentAmount()) {
 							System.out.println(token.getTokenName() + " with $" + token.getTotalmoney() + " paid rent to " + playerList.get(i).getTokenName());
@@ -236,7 +238,6 @@ public class GameController {
 		token.removeAllPropertiesForBankruptcy(token.getPropertyDeeds(), deedBank.getAllDeeds());
 		token.setTotalMoney(0);		
 		playerList.remove(token);
-		count--;
 		i--;
 		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" + token.getTokenName() + 
 				" is BANKRUPT!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -257,7 +258,7 @@ public class GameController {
 	
 
 	/*************************************************INITIALIZE OBJECTS******************************************************/
-	public void initializePlayers() {
+	public void initializePlayers(int numberOfPlayers) {
 			
 			gandalf.setPlayerName("Matt");
 			gandalf.setTokenName("Gandalf");
@@ -304,6 +305,13 @@ public class GameController {
 			playerList.add(aragorn);
 			playerList.add(sauran);
 			playerList.add(frodo);
+			
+			ArrayList<Token> temp = new ArrayList<Token>();
+			for(int i = 0; i < numberOfPlayers; i++ ) {
+				temp.add(playerList.get(i));
+			}
+			
+			playerList = temp;
 	}
 	
 	public void initializeSquares() {

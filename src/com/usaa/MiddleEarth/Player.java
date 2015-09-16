@@ -20,7 +20,7 @@ public class Player {
 	}
 	
 	public void setPlayerImageLocation(String ImageURL) {
-		
+		playerImageLocation = ImageURL;
 	}
 	
 	public String getPlayerImageLocation() {

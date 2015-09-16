@@ -18,7 +18,7 @@ public class BoardStatusServlet extends HttpServlet {
 
 	@SuppressWarnings("deprecation")
 	public void init() {
-		gameController = new GameController();
+		
 		
 	}
 
@@ -27,21 +27,33 @@ public class BoardStatusServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		switch(request.getParameter("action")) {
+		if(request.getParameter("action") != null ) {
+			switch(request.getParameter("action")) {
 
-		case ("start"):
-			response.getWriter(GameController.newGame());
+			case ("start"):
+				int numberOfPlayers = 2;
+				
+				if(request.getParameter("pNum") != null) {
+					numberOfPlayers = Integer.parseInt(request.getParameter("pNum"));
+				}
+				
+				gameController = new GameController();
+				String start = gameController.newGame(numberOfPlayers);
+			response.getWriter().append(start);
+			response.getWriter().flush();
+				break;
+
+
+			case ("roll"):
+				String moves = gameController.gamePlay();
+			response.getWriter().append(moves);
+			response.getWriter().flush();
 			break;
-
-
-		case ("roll"):
-			String moves = gameController.gamePlay();
-		response.getWriter().append(moves);
-		response.getWriter().flush();
-		break;
+			
+			default:
+				response.getWriter().append("No Request made!");
+			}
 		}
-
-
 
 	}
 

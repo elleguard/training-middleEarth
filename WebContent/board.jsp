@@ -82,23 +82,12 @@
 					for (int i = 0; i < players; i++ ) {
 						
 
-						out.println("<div class='tokens' style='width: " + width + "%; background-color:#2F2F73; margin: 1%'>"
-								+ "<span>Aragorn</span>" + "<br>" + "<img src='images/tokens/aragorn.jpg'/>" +
+						out.println("<div id=\"" + i + "player\" class='tokens' style='width: " + width + "%; margin: 1%'>"
+								+ "<span class=\"name\"></span>" + "<br>" + "<img src=''/><span class=\"money\"></span>" +
 
 						"</div>");
 					}
 				%>
-
-				<!-- 					<div class="tokens" style="width: 31.3%; background-color:#863333; margin: 1%"> -->
-				<!-- 						<span>Frodo</span> -->
-				<!-- 						<br> -->
-				<!-- 						<img src="images/tokens/frodo.jpg" /> -->
-				<!-- 					</div> -->
-				<!-- 					<div class="tokens" style="width: 31.3%; background-color:#314613; margin: 1%"> -->
-				<!-- 						<span>Gandalf</span> -->
-				<!-- 						<br> -->
-				<!-- 						<img src="images/tokens/gandalf.jpg" /> -->
-				<!-- 					</div> -->
 
 			</div>
 
@@ -137,30 +126,52 @@
 				<div id="1"></div>
 			</div>
 			<div class="tile"
-				style="background: url('images/tiles/middle_earth.jpg');">>
+				style="background: url('images/tiles/middle_earth.jpg');">
 				<span>Go</span>
 				<div id="0">
-					<div style="background: blue;" class="player" id="Gandalf"></div>
-					<div style="background: red;" class="player" id="Legolas"></div>
-					<div style="background: green;" class="player" id="Aragorn"></div>
-					<div style="background: yellow;" class="player" id="Sauran"></div>
-					<div style="background: orange;" class="player" id="Frodo"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script>
-		var tid = setInterval(mycode, 2000);
+		var tid = setInterval(mycode, 2);
+		
+		initBoard();
+		
+		function initBoard() {
+			var numberOfPlayers = <%= request.getParameter("numberOfPlayers") %>;
+			$.get("BoardStatusServlet?action=start&pNum=" + numberOfPlayers, function(data) {
+				var initData = $.parseJSON(data);
+				console.log(initData);
+				
+				for(var player in initData) {
+					console.log($("#" + initData[player]["0"]["name"]));
+					
+					playerColor = initData[player]["0"]["color"];
+					playerImg = initData[player]["0"]["image"];
+					playerName = initData[player]["0"]["name"];
+					
+					$("#0").append("<div class=\"player\" id=\"" + playerName + "\" ></div>");
+					
+					$("#" + player + "player").css("background-color",playerColor);
+					$("#" + initData[player]["0"]["name"]).css("background-color",playerColor);
+					$("#" + player + "player img").attr("src",playerImg);
+					$("#" + player + "player span.name").html(playerName);
+				}
+				
+			});
+		}
 		
 		function mycode() {
 			console.log("Tick");
-			$.get("BoardStatusServlet", function(data) {
+			$.get("BoardStatusServlet?action=roll", function(data) {
 				var players = $.parseJSON(data);
+				
 				//console.log(moves);
 
 				for(var player in players) {
 					movePlayer(players[player]["0"]["name"], (parseInt(players[player]["0"]["rolled"]) + parseInt($("#" + players[player]["0"]["name"]).parent().attr("id"))) % 14);
-
+					$("#" + player + "player span.money").html("<br>$" + players[player]["0"]["money"]);
 				}
 					
 
