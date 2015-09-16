@@ -155,7 +155,7 @@
 		function mycode() {
 			console.log("Tick");
 			$.get("BoardStatusServlet", function(data) {
-				var moves = $.parseJSON(data);
+				var players = $.parseJSON(data);
 				//console.log(moves);
 
 				for(var player in players) {

@@ -13,7 +13,6 @@ public class Player {
 		
 	}
 	
-	public String getPlayerColor()
 	public void getPlayerName() {
 		
 	}
