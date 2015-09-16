@@ -13,23 +13,36 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Servlet")
 public class BoardStatusServlet extends HttpServlet {
 	public GameController gameController;
-	
+
 	private static final long serialVersionUID = 1L;
-    
-    @SuppressWarnings("deprecation")
+
+	@SuppressWarnings("deprecation")
 	public void init() {
-    	gameController = new GameController();
-		gameController.newGame();
-    }
+		gameController = new GameController();
+		
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String moves = gameController.gamePlay();
-		
+
+		switch(request.getParameter("action")) {
+
+		case ("start"):
+			response.getWriter(GameController.newGame());
+			break;
+
+
+		case ("roll"):
+			String moves = gameController.gamePlay();
 		response.getWriter().append(moves);
 		response.getWriter().flush();
+		break;
+		}
+
+
+
 	}
 
 	/**
@@ -38,6 +51,7 @@ public class BoardStatusServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+
 	}
 
 }

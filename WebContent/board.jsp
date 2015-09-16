@@ -140,11 +140,11 @@
 				style="background: url('images/tiles/middle_earth.jpg');">>
 				<span>Go</span>
 				<div id="0">
-					<div style="background: blue;" class="player" id="Legolas"></div>
-					<div style="background: red;" class="player" id="Gandolf"></div>
-					<div style="background: green;" class="player" id="Frodo"></div>
-					<div style="background: yellow;" class="player" id="Gandolf"></div>
-					<div style="background: orange;" class="player" id="Gandolf"></div>
+					<div style="background: blue;" class="player" id="Gandalf"></div>
+					<div style="background: red;" class="player" id="Legolas"></div>
+					<div style="background: green;" class="player" id="Aragorn"></div>
+					<div style="background: yellow;" class="player" id="Sauran"></div>
+					<div style="background: orange;" class="player" id="Frodo"></div>
 				</div>
 			</div>
 		</div>
