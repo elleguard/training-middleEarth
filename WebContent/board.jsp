@@ -135,11 +135,11 @@
 			<div class="tile">
 				<span>Go</span>
 				<div id="0">
-					<div style="background: blue;" class="player" id="Legolas"></div>
-					<div style="background: red;" class="player" id="Gandolf"></div>
-					<div style="background: green;" class="player" id="Frodo"></div>
-					<div style="background: yellow;" class="player" id="Gandolf"></div>
-					<div style="background: orange;" class="player" id="Gandolf"></div>
+					<div style="background: blue;" class="player" id="Gandalf"></div>
+					<div style="background: red;" class="player" id="Legolas"></div>
+					<div style="background: green;" class="player" id="Aragorn"></div>
+					<div style="background: yellow;" class="player" id="Sauran"></div>
+					<div style="background: orange;" class="player" id="Frodo"></div>
 				</div>
 			</div>
 		</div>
@@ -150,11 +150,10 @@
 		function mycode() {
 			console.log("Tick");
 			$.get("BoardStatusServlet", function(data) {
-				var moves = $.parseJSON(data);
-				//console.log(moves);
+				var players = $.parseJSON(data);
+				console.log(players);
 
-				for(var player in moves) {
-					console.log((parseInt(moves[player]["0"]["rolled"]) + parseInt($("#" + moves.name).parent().attr("id"))) % 14);
+				for(var player in players) {
 					movePlayer(moves[player]["0"]["name"], (parseInt(moves[player]["0"]["rolled"]) + parseInt($("#" + moves[player]["0"]["name"]).parent().attr("id"))) % 14);
 				}
 					
