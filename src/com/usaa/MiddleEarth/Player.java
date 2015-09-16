@@ -9,13 +9,22 @@ public class Player {
 	private ArrayList<Square> propertyDeeds = new ArrayList<Square>();
 	private boolean isBankrupt = false;
 	private String playerColor;
+	private String playerImageLocation;
 	
 	public void setPlayerColor(String ColorHex) {
-		
+		playerColor = ColorHex;		
 	}
 
 	public String getPlayerColor() {
 		return playerColor;
+	}
+	
+	public void setPlayerImageLocation(String ImageURL) {
+		
+	}
+	
+	public String getPlayerImageLocation() {
+		return playerImageLocation;
 	}
 	
 	public void getPlayerName() {
