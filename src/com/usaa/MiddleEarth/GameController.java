@@ -54,12 +54,24 @@ public class GameController {
 	private int counter = 0;
 	private int i = 0;
 	
-	public void newGame() {
+	public String newGame() {
 		initializePlayers();
 		initializeSquares();
 		addDeedsToBankList();
 		moneyBank.setMoney(500000);
 		isNotWinner = true;
+		
+		String start = "{";
+		
+		for(int i = 0; i < playerList.size(); i++) {
+			start += "\"" + i + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName() 
+					+ "\", \"color\" : " + playerList.get(i).getPlayerColor()
+					+ "\", \"image\" : " + playerList.get(i).getPlayerImageLocation()
+					+ "}]";
+
+		}
+		
+		return start;
 	}
 	
 	public void addDeedsToBankList() {
@@ -91,7 +103,9 @@ public class GameController {
 				int diceRoll = die.rollDie();
 				square.moveToken(playerList.get(i), diceRoll);
 				System.out.println(playerList.get(i).getTokenName() + " has rolled a " + diceRoll );
-				moves += "\"" + i + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName() + "\", \"rolled\" : " + diceRoll + "}]";
+				moves += "\"" + i + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName() 
+						+ "\", \"rolled\" : " + diceRoll	
+						+ "}]";
 				squareTakeAction( playerList.get(i).getLocationOnBoard(), playerList.get(i));
 				
 				if(count == 1) {
@@ -250,30 +264,40 @@ public class GameController {
 			gandalf.setTotalMoney(800);
 			gandalf.setLocationOnBoard(0);
 			gandalf.setIsGoodGuy(true);
+			gandalf.setPlayerColor("#314613");
+			gandalf.setPlayerImageLocation("images/tokens/gandalf.jpg");
 			
 			legolas.setPlayerName("Bob");
 			legolas.setTokenName("Legolas");
 			legolas.setTotalMoney(800);
 			legolas.setLocationOnBoard(0);
 			legolas.setIsGoodGuy(true);
+			legolas.setPlayerColor("#A07E23");
+			legolas.setPlayerImageLocation("images/tokens/legolas.jpg");
 			
 			aragorn.setPlayerName("Kate");
 			aragorn.setTokenName("Aragorn");
 			aragorn.setTotalMoney(800);
 			aragorn.setLocationOnBoard(0);
 			aragorn.setIsGoodGuy(true);
+			aragorn.setPlayerColor("#2F2F73");
+			aragorn.setPlayerImageLocation("images/tokens/aragorn.jpg");
 			
 			sauran.setPlayerName("Kim");
 			sauran.setTokenName("Sauran");
 			sauran.setTotalMoney(800);
 			sauran.setLocationOnBoard(0);
 			sauran.setIsGoodGuy(false);
+			sauran.setPlayerColor("#46483C");
+			sauran.setPlayerImageLocation("images/tokens/sauran.jpg");
 			
 			frodo.setPlayerName("Jon");
 			frodo.setTokenName("Frodo");
 			frodo.setTotalMoney(800);
 			frodo.setLocationOnBoard(0);
 			frodo.setIsGoodGuy(true);
+			frodo.setPlayerColor("#863333");
+			frodo.setPlayerImageLocation("images/tokens/frodo.jpg");
 			
 			playerList.add(gandalf);
 			playerList.add(legolas);
