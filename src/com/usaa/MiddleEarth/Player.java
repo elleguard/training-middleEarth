@@ -8,12 +8,15 @@ public class Player {
 	private int totalMoney;
 	private ArrayList<Square> propertyDeeds = new ArrayList<Square>();
 	private boolean isBankrupt = false;
+	private String playerColor;
 	
 	public void setPlayerColor(String ColorHex) {
 		
 	}
 	
-	public String getPlayerColor()
+	public String getPlayerColor() {
+		return playerColor;
+	}
 	public void getPlayerName() {
 		
 	}
