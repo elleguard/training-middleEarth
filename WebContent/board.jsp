@@ -155,7 +155,7 @@
 				console.log(players);
 
 				for(var player in players) {
-					movePlayer(moves[player]["0"]["name"], (parseInt(moves[player]["0"]["rolled"]) + parseInt($("#" + moves[player]["0"]["name"]).parent().attr("id"))) % 14);
+					movePlayer(players[player]["0"]["name"], (parseInt(players[player]["0"]["rolled"]) + parseInt($("#" + players[player]["0"]["name"]).parent().attr("id"))) % 14);
 				}
 					
 
