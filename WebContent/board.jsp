@@ -158,9 +158,9 @@
 				var moves = $.parseJSON(data);
 				//console.log(moves);
 
-				for(var player in moves) {
-					console.log((parseInt(moves[player]["0"]["rolled"]) + parseInt($("#" + moves.name).parent().attr("id"))) % 14);
-					movePlayer(moves[player]["0"]["name"], (parseInt(moves[player]["0"]["rolled"]) + parseInt($("#" + moves[player]["0"]["name"]).parent().attr("id"))) % 14);
+				for(var player in players) {
+					movePlayer(players[player]["0"]["name"], (parseInt(players[player]["0"]["rolled"]) + parseInt($("#" + players[player]["0"]["name"]).parent().attr("id"))) % 14);
+
 				}
 					
 
