@@ -11,16 +11,15 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class Servlet
  */
 @WebServlet("/Servlet")
-public class Servlet extends HttpServlet {
+public class BoardStatusServlet extends HttpServlet {
+	public GameController gameController;
+	
 	private static final long serialVersionUID = 1L;
     
     @SuppressWarnings("deprecation")
 	public void init() {
-    	GameController gameController = new GameController();
-        Thread th = new Thread(gameController);
-        th.start();
-        
-		th.stop();
+    	gameController = new GameController();
+		gameController.newGame();
     }
 
 	/**
@@ -28,7 +27,9 @@ public class Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String moves = gameController.gamePlay();
+		
+		response.getWriter().append(moves);
 		response.getWriter().flush();
 	}
 

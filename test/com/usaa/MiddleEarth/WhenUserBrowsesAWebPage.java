@@ -28,7 +28,7 @@ public class WhenUserBrowsesAWebPage {
     
     @Test
     public void servletShouldRespondEvenIfInLoop() {
-    	Servlet servlet = new Servlet();
+    	BoardStatusServlet servlet = new BoardStatusServlet();
     	
     }
 }

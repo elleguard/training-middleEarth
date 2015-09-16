@@ -17,7 +17,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class GameController implements Runnable {
+public class GameController {
 
 	public static int NUMBER_OF_SPACES = 13;
 	public static int NUMBER_OF_PLAYERS = 5;
@@ -60,7 +60,6 @@ public class GameController implements Runnable {
 		addDeedsToBankList();
 		moneyBank.setMoney(500000);
 		isNotWinner = true;
-		gamePlay();
 	}
 	
 	public void addDeedsToBankList() {
@@ -78,76 +77,42 @@ public class GameController implements Runnable {
 	
 	/*********************************************************Main Game Logic*******************************************************/
 	
-	public void gamePlay() {
+	public String gamePlay() {
+		String moves = "{";
 		
 	System.out.println("------------------------------------NEW GAME STARTED----------------------------------------------------------");
 		
-		while(isNotWinner) {
+//		while(isNotWinner) {
 			counter++;
 			for(i = 0; i < count; i++) {
 				System.out.println("\r\n" + "--It is " + playerList.get(i).getTokenName() +"'s Turn--");
+				
 				//roll dice and move player
 				int diceRoll = die.rollDie();
 				square.moveToken(playerList.get(i), diceRoll);
 				System.out.println(playerList.get(i).getTokenName() + " has rolled a " + diceRoll );
-				
+				moves += "\"" + i + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName() + "\", \"rolled\" : " + diceRoll + "}]";
 				squareTakeAction( playerList.get(i).getLocationOnBoard(), playerList.get(i));
 				
 				if(count == 1) {
 					displayWinner(playerList.get(0));
 					break;
 				}
+				
+				if(i != playerList.size() - 1)
+					moves += " , ";
+				
 			}
 			System.out.println("------------END OF ROUND " + counter +"--------------\r\n");
 			try {
-				postStatus();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			delay(1000);
 			
-		}
-	}
-	
-	public void postStatus() throws Exception {
-		String url = "http://localhost:8081";
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-		//add reuqest header
-		con.setRequestMethod("POST");
-		con.setRequestProperty("User-Agent", "Mozilla/5.0");
-		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
-		String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
-		
-		// Send post request
-		con.setDoOutput(true);
-		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-		wr.writeBytes(urlParameters);
-		wr.flush();
-		wr.close();
-
-		int responseCode = con.getResponseCode();
-		System.out.println("\nSending 'POST' request to URL : " + url);
-		System.out.println("Post parameters : " + urlParameters);
-		System.out.println("Response Code : " + responseCode);
-
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-		
-		//print result
-		System.out.println(response.toString());
-		   
-		
+//		}
+			moves += "}";
+			return moves;
 	}
 	
 	private void delay(int milliseconds) {
@@ -334,13 +299,6 @@ public class GameController implements Runnable {
 		squareList.add(freeStay);
 		squareList.add(minastirith);
 		
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		initializePlayers();
-		newGame();
 	}
 
 	
