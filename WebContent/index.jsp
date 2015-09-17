@@ -35,7 +35,8 @@
 		<hr>
 		<p class="footer">&copy; Mike &amp; Elle 2015 all rights reserved.</p>
 	</div>
-
+	
+<audio src="http://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" style="display: none" autoplay loop>
 
 </body>
 </html>

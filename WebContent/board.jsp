@@ -14,6 +14,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="boardStyle.css">
 <title>Middle Earth Game</title>
@@ -161,6 +162,10 @@
 				for(var player in players) {
 					movePlayer(players[player]["0"]["name"], (parseInt(players[player]["0"]["rolled"]) + parseInt($("#" + players[player]["0"]["name"]).parent().attr("id"))) % 14);
 					$("#" + players[player]["0"]["name"] + "Box span.money").html("<br>$" + players[player]["0"]["money"]);
+					
+					if(players[player]["0"]["money"] == 0) {
+						$("#" + players[player]["0"]["name"] + "Box .redx").css("display","block");
+					}
 				}
 				
 				if(players["winner"] != null) {
@@ -185,6 +190,7 @@
 			$("#" + name).appendTo("#" + spacesToMove);
 		}
 	</script>
+<audio src="Sounds/13-the-bridge-of-khazad-dum.mp3" style="display: none" autoplay loop>
 
 </body>
 </html>
