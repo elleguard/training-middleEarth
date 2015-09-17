@@ -32,7 +32,7 @@
 			
 			<hr>
 			<button id="playpause" type="button" onclick="playPause()"><img src="images/playpause.png" style="width: 100%;"></button>
-			<script type="text/javascript">var playOrPause = true;</script>
+			
 		</div>
 		
 
@@ -121,6 +121,7 @@
 		</div>
 	</div>
 	<script>
+		var playOrPause = true;
 		var tid = setInterval(mycode, 500);
 		
 		initBoard();
@@ -194,7 +195,7 @@
 			playOrPause = !playOrPause;
 			
 			if(playOrPause){
-				setInterval(mycode, 500);
+				tid = setInterval(mycode, 500);
 			}
 			else {
 				abortTimer();
