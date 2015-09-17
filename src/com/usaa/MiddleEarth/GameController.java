@@ -95,11 +95,13 @@ public class GameController {
 	public String gamePlay() {
 		String moves = "{";
 		
-	System.out.println("------------------------------------NEW GAME STARTED----------------------------------------------------------");
+	System.out.println("------------------------------------NEW ROUND STARTED----------------------------------------------------------");
 		
         if(playerList.size() > 1) {
 			counter++;
+			int actualPlayer = 0;
 			for(i = 0; i < playerList.size(); i++) {
+				
 				System.out.println("\r\n" + "--It is " + playerList.get(i).getTokenName() +"'s Turn--");
 				
 				//roll dice and move player
@@ -110,7 +112,7 @@ public class GameController {
 				
 				squareTakeAction( playerList.get(i).getLocationOnBoard(), playerList.get(i));
 				
-				moves += "\"" + i + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName()
+				moves += "\"" + actualPlayer++ + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName()
 						+ "\", \"money\" : " + playerList.get(i).getTotalmoney()
 						+ ", \"rolled\" : " + diceRoll	
 						+ "}]";

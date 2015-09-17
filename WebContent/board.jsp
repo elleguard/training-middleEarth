@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
+<%
+					int players;
+
+					if (request.getParameter("numberOfPlayers") != null) {
+						players = Integer.parseInt(request.getParameter("numberOfPlayers"));
+					} else {
+						players = 1;
+					}
+				%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -56,38 +67,8 @@
 				</div>
 			</div>
 
-			<script>
-				console.log(
-			<%=request.getParameter("numberOfPlayers")%>
-				)
-			</script>
-
 			<div id="center">
 				<div>Player's Bank Accounts:</div>
-				<%
-					int players;
-
-					if (request.getParameter("numberOfPlayers") != null) {
-						players = Integer.parseInt(request.getParameter("numberOfPlayers"));
-					} else {
-						players = 1;
-					}
-				%>
-				
-				<%@ page import="com.usaa.MiddleEarth.GameController, java.util.ArrayList"  %>
-				
-				<%
-				
-					int width = (100 - (players * 2)) / players;
-					for (int i = 0; i < players; i++ ) {
-						
-
-						out.println("<div id=\"" + i + "player\" class='tokens' style='width: " + width + "%; margin: 1%'>"
-								+ "<span class=\"name\"></span>" + "<br>" + "<img src=''/><span class=\"money\"></span>" +
-
-						"</div>");
-					}
-				%>
 
 			</div>
 
@@ -128,21 +109,21 @@
 			<div class="tile"
 				style="background: url('images/tiles/middle_earth.jpg');">
 				<span>Go</span>
-				<div id="0">
-				</div>
+				<div id="0"></div>
 			</div>
 		</div>
 	</div>
 	<script>
-		var tid = setInterval(mycode, 200);
+		var tid = setInterval(mycode, 500);
 		
 		initBoard();
 		
 		function initBoard() {
 			var numberOfPlayers = <%= request.getParameter("numberOfPlayers") %>;
+			var widthOfDivs = <%= (100 - (Integer.parseInt(request.getParameter("numberOfPlayers")) * 2)) / Integer.parseInt(request.getParameter("numberOfPlayers")) %>;
 			$.get("BoardStatusServlet?action=start&pNum=" + numberOfPlayers, function(data) {
 				var initData = $.parseJSON(data);
-				console.log(initData);
+				console.log(data);
 				
 				for(var player in initData) {
 					console.log($("#" + initData[player]["0"]["name"]));
@@ -153,11 +134,14 @@
 					
 					$("#0").append("<div class=\"player\" id=\"" + playerName + "\" ></div>");
 					
-					$("#" + player + "player").css("background-color",playerColor);
+					$('#center').append("<div id=\"" + playerName + "Box\" class=\"tokens\" style=\"width: " + widthOfDivs + "%; margin: 1%\"><div class=\"redx\"></div><span class=\"name\"></span><br><img src=\"\"><span class=\"money\"></span></div>");
+					
 					$("#" + initData[player]["0"]["name"]).css("background-color",playerColor);
-					$("#" + player + "player img").attr("src",playerImg);
-					$("#" + player + "player span.name").html(playerName);
-					$("#" + player + "player span.money").html("<br>$" + initData[player]["0"]["money"]);
+					
+					$("#" + playerName + "Box").css("background-color",playerColor);
+					$("#" + playerName + "Box img").attr("src",playerImg);
+					$("#" + playerName + "Box span.name").html(playerName);
+					$("#" + playerName + "Box span.money").html("<br>$" + initData[player]["0"]["money"]);
 				}
 				
 			});
@@ -170,26 +154,28 @@
 		function mycode() {
 			console.log("Tick");
 			$.get("BoardStatusServlet?action=roll", function(data) {
+				console.log(data);
 				
 				var players = $.parseJSON(data);
 				
-				//if(players[player])
-					
-					if(players["winner"] != null) {
-						abortTimer();
-						displayWinner(players["winner"]);
-					}
-				
-				//console.log(moves);
-
 				for(var player in players) {
 					movePlayer(players[player]["0"]["name"], (parseInt(players[player]["0"]["rolled"]) + parseInt($("#" + players[player]["0"]["name"]).parent().attr("id"))) % 14);
-					$("#" + player + "player span.money").html("<br>$" + players[player]["0"]["money"]);
+					$("#" + players[player]["0"]["name"] + "Box span.money").html("<br>$" + players[player]["0"]["money"]);
+				}
+				
+				if(players["winner"] != null) {
+					abortTimer();
+					displayWinner(players["winner"]);
 				}
 					
 
 			});
 		}
+		
+		function playerBankrupt(player) {
+			
+		}
+		
 		//stops the timer if called
 		function abortTimer() {
 			clearInterval(tid);
