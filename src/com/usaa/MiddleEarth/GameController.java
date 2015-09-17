@@ -65,13 +65,15 @@ public class GameController {
 			start += "\"" + i + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName() 
 					+ "\", \"color\" : \"" + playerList.get(i).getPlayerColor()
 					+ "\", \"image\" : \"" + playerList.get(i).getPlayerImageLocation()
-					+ "\"}]";
+					+ "\", \"money\" : " + playerList.get(i).getTotalmoney()
+					+ "}]";
 			
 			if(i != playerList.size() - 1)
 				start += " , ";
 
 		}
 		start += "}";
+		
 		return start;
 	}
 	
@@ -95,7 +97,7 @@ public class GameController {
 		
 	System.out.println("------------------------------------NEW GAME STARTED----------------------------------------------------------");
 		
-//		while(isNotWinner) {
+        if(playerList.size() > 1) {
 			counter++;
 			for(i = 0; i < playerList.size(); i++) {
 				System.out.println("\r\n" + "--It is " + playerList.get(i).getTokenName() +"'s Turn--");
@@ -104,15 +106,18 @@ public class GameController {
 				int diceRoll = die.rollDie();
 				square.moveToken(playerList.get(i), diceRoll);
 				System.out.println(playerList.get(i).getTokenName() + " has rolled a " + diceRoll );
+				
+				
+				squareTakeAction( playerList.get(i).getLocationOnBoard(), playerList.get(i));
+				
 				moves += "\"" + i + "\" : [{\"name\" : \"" + playerList.get(i).getTokenName()
 						+ "\", \"money\" : " + playerList.get(i).getTotalmoney()
 						+ ", \"rolled\" : " + diceRoll	
 						+ "}]";
-				squareTakeAction( playerList.get(i).getLocationOnBoard(), playerList.get(i));
 				
-				if(playerList.size() == 1) {
-					displayWinner(playerList.get(0));
-					break;
+				if(playerList.get(i).getTotalmoney() == 0) {
+					playerList.remove(i);
+					i--;
 				}
 				
 				if(i != playerList.size() - 1)
@@ -126,8 +131,14 @@ public class GameController {
 				e.printStackTrace();
 			}
 			
-//		}
+		} else {
+			displayWinner(playerList.get(0));
+			moves += "\"winner\" : \"" + playerList.get(0).getTokenName() + "\"";
+		}
 			moves += "}";
+			
+			System.out.println(moves);
+			
 			return moves;
 	}
 	
@@ -237,8 +248,7 @@ public class GameController {
 		//TODO: give property and money back to bank and remove from player list
 		token.removeAllPropertiesForBankruptcy(token.getPropertyDeeds(), deedBank.getAllDeeds());
 		token.setTotalMoney(0);		
-		playerList.remove(token);
-		i--;
+		
 		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" + token.getTokenName() + 
 				" is BANKRUPT!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 	}
@@ -312,6 +322,7 @@ public class GameController {
 			}
 			
 			playerList = temp;
+
 	}
 	
 	public void initializeSquares() {

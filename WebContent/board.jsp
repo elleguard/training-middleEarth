@@ -134,7 +134,7 @@
 		</div>
 	</div>
 	<script>
-		var tid = setInterval(mycode, 2);
+		var tid = setInterval(mycode, 200);
 		
 		initBoard();
 		
@@ -157,15 +157,28 @@
 					$("#" + initData[player]["0"]["name"]).css("background-color",playerColor);
 					$("#" + player + "player img").attr("src",playerImg);
 					$("#" + player + "player span.name").html(playerName);
+					$("#" + player + "player span.money").html("<br>$" + initData[player]["0"]["money"]);
 				}
 				
 			});
 		}
 		
+		function displayWinner(winner) {
+			alert(winner + " wins!!");
+		}
+		
 		function mycode() {
 			console.log("Tick");
 			$.get("BoardStatusServlet?action=roll", function(data) {
+				
 				var players = $.parseJSON(data);
+				
+				//if(players[player])
+					
+					if(players["winner"] != null) {
+						abortTimer();
+						displayWinner(players["winner"]);
+					}
 				
 				//console.log(moves);
 
