@@ -19,15 +19,21 @@
 <title>Middle Earth Game</title>
 <!-- Google CDN for JQuery -->
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+</script>
 </head>
 <body>
 
 	<div id="board">
 		<div id="title">
 			<h1>Middle Earth</h1>
+			
 			<hr>
+			<button id="playpause" type="button" onclick="playPause()"><img src="images/playpause.png" style="width: 100%;"></button>
+			<script type="text/javascript">var playOrPause = true;</script>
 		</div>
+		
 
 		<div class="row">
 			<div class="tile" style="background: url('images/tiles/gondor.jpg');">
@@ -172,15 +178,25 @@
 			});
 		}
 		
-		function playerBankrupt(player) {
-			
-		}
+		
 		
 		//stops the timer if called
 		function abortTimer() {
 			clearInterval(tid);
 		}
-
+		
+		function playPause() {
+			playOrPause = !playOrPause;
+			
+			if(playOrPause){
+				setInterval(mycode, 500);
+			}
+			else {
+				abortTimer();
+			}
+			
+		}
+		
 		function movePlayer(name, spacesToMove) {
 			$("#" + name).appendTo("#" + spacesToMove);
 		}

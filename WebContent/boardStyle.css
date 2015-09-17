@@ -35,6 +35,11 @@ body {
 	height: 150px;
 }
 
+#playpause {
+	align: right;
+	width: 40px;
+}
+
 #center {
 	width: 458px;
 	height: 200px;
