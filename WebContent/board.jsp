@@ -26,6 +26,14 @@
 </head>
 <body>
 
+<div class="pop-up">
+<h1>Game Over</h1>
+<hr>
+<p class="message"></p>
+<br>
+<input type="button" onclick="location.href='/MiddleEarth'" value="Play again?"/>
+</div>
+
 	<div id="board">
 		<div id="title">
 			<h1>Middle Earth</h1>
@@ -156,7 +164,8 @@
 		}
 		
 		function displayWinner(winner) {
-			alert(winner + " wins!!");
+			$('.pop-up').css("display","inline");
+			$('.pop-up p.message').append(winner + " wins!!");
 		}
 		
 		function mycode() {
